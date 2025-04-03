@@ -6,6 +6,16 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:text="Lab7"
+        android:textSize="25sp"
+        android:background="@color/black"
+        android:textColor="@color/white"
+        android:padding="10dp"/>
+
     <EditText
         android:id="@+id/ed_username"
         android:layout_width="match_parent"
