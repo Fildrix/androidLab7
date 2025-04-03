@@ -35,12 +35,12 @@ class SignUpActivity : AppCompatActivity() {
             val strConfirmPassword = edConfirmPassword.text.toString()
 
             if (strUsername.contains(' ')) {
-                Toast.makeText(this, "Нужно убрать пробел в имени пользователя", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Need to remove space in username", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (strPassword.contains(' ')) {
-                Toast.makeText(this, "Нужно убрать пробел в пароле", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "You need to remove the space in the password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -51,10 +51,10 @@ class SignUpActivity : AppCompatActivity() {
                 editor.putString("Password", strPassword)
                 editor.apply()
 
-                Toast.makeText(this, "Пользователь создан!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "User created!", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                Toast.makeText(this, "Пароли не совпадают", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "The passwords do not match", Toast.LENGTH_SHORT).show()
             }
         }
     }
