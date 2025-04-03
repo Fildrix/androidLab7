@@ -2,7 +2,6 @@ package com.example.lab7
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -16,8 +15,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var btnSignUp: Button
 
-    private val CREDENTIAL_SHARED_PREF = "our_shared_pref"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -27,34 +24,36 @@ class LoginActivity : AppCompatActivity() {
         btnLogin   = findViewById(R.id.btn_login)
         btnSignUp  = findViewById(R.id.btn_signup)
 
-        // Переход на экран регистрации
         btnSignUp.setOnClickListener {
-            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
 
-        // Кнопка «Войти»
         btnLogin.setOnClickListener {
-            val credentials: SharedPreferences = getSharedPreferences(CREDENTIAL_SHARED_PREF, Context.MODE_PRIVATE)
-            val strUsername = credentials.getString("Username", null)
-            val strPassword = credentials.getString("Password", null)
-
-            val usernameFromEd = edUsername.text.toString()
+            val usernameFromEd = edUsername.text.toString().trim()
             val passwordFromEd = edPassword.text.toString()
 
-            if (strUsername != null && strUsername.equals(usernameFromEd, ignoreCase = true)) {
-                if (strPassword != null && strPassword.equals(passwordFromEd, ignoreCase = true)) {
-                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+            if (usernameFromEd.isEmpty()) {
+                Toast.makeText(this, "Username is empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-                    // Переход в MainActivity, где есть кнопки Read/Write файла
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish() // Чтобы при нажатии «Назад» не возвращаться сюда
-                } else {
-                    Toast.makeText(this, "Invalid password", Toast.LENGTH_SHORT).show()
-                }
+            val prefName = "$usernameFromEd-OutSharedPref"
+            val userPref = getSharedPreferences(prefName, Context.MODE_PRIVATE)
+            val storedUser = userPref.getString("Username", null)
+            val storedPass = userPref.getString("Password", null)
+
+            if (storedUser == null) {
+                Toast.makeText(this, "User '$usernameFromEd' not found", Toast.LENGTH_SHORT).show()
+            } else if (storedPass == passwordFromEd) {
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("EXTRA_LOGIN", usernameFromEd)
+                startActivity(intent)
+                finish()
+
             } else {
-                Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Invalid password", Toast.LENGTH_SHORT).show()
             }
         }
     }

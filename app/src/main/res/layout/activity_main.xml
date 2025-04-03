@@ -7,37 +7,31 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvUsername"
+        android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello, user!"
-        android:textSize="20sp"
+        android:text="Welcome"
+        android:textSize="18sp"
         android:layout_marginBottom="16dp" />
 
-    <EditText
-        android:id="@+id/edData"
+    <Button
+        android:id="@+id/btnWriteFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Write to File"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnReadFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read from File"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvFileData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter text here..."
-        android:layout_marginBottom="8dp" />
-
-    <Button
-        android:id="@+id/btnWrite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Write to file"
-        android:layout_marginBottom="8dp" />
-
-    <Button
-        android:id="@+id/btnRead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Read from file"
-        android:layout_marginBottom="16dp" />
-
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout" />
+        android:text="File content will appear here"
+        android:textSize="16sp"/>
 </LinearLayout>
