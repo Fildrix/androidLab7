@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnRead: Button
     private lateinit var btnLogout: Button
 
-    // Имя файла (во внутреннем хранилище)
+    // Название файла внутри приложения
     private val FILE_NAME = "MyStorageApp.txt"
 
-    // Для SharedPreferences (хранение логина и пароля)
+    // Для чтения логина (SharedPreferences)
     private val CREDENTIAL_SHARED_PREF = "our_shared_pref"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,50 +32,42 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         tvUsername = findViewById(R.id.tvUsername)
-        edData = findViewById(R.id.edData)
-        btnWrite = findViewById(R.id.btnWriteFile)
-        btnRead = findViewById(R.id.btnReadFile)
-        btnLogout = findViewById(R.id.btnLogout)
+        edData     = findViewById(R.id.edData)
+        btnWrite   = findViewById(R.id.btnWrite)
+        btnRead    = findViewById(R.id.btnRead)
+        btnLogout  = findViewById(R.id.btnLogout)
 
-        // Считываем имя пользователя из SharedPreferences и отображаем
-        val preferences: SharedPreferences =
-            getSharedPreferences(CREDENTIAL_SHARED_PREF, Context.MODE_PRIVATE)
-        val username = preferences.getString("Username", "Unknown")
+        // Считываем пользователя из SharedPreferences
+        val prefs: SharedPreferences = getSharedPreferences(CREDENTIAL_SHARED_PREF, Context.MODE_PRIVATE)
+        val username = prefs.getString("Username", "Unknown")
         tvUsername.text = "Hello, $username!"
 
-        // Кнопка «Записать в файл»
+        // Кнопка: «Записать в файл»
         btnWrite.setOnClickListener {
             val textToSave = edData.text.toString()
             writeToFile(textToSave)
         }
 
-        // Кнопка «Прочитать из файла»
+        // Кнопка: «Прочитать из файла»
         btnRead.setOnClickListener {
             val fileData = readFromFile()
-            edData.setText(fileData) // отображаем данные в EditText
+            edData.setText(fileData)
         }
 
-        // Кнопка «Выйти» (очистка данных и возврат на LoginActivity)
+        // Кнопка: «Выйти» — очистка SharedPreferences и возвращение на LoginActivity
         btnLogout.setOnClickListener {
-            val editor = preferences.edit()
-            editor.clear()
-            editor.apply()
+            prefs.edit().clear().apply()
 
             val intent = Intent(this, LoginActivity::class.java)
-            // Чтобы пользователь не мог вернуться кнопкой «Назад»
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
         }
     }
 
-    /**
-     * Запись во внутреннее хранилище (internal storage).
-     * Файл будет создан или перезаписан внутри каталога приложения.
-     */
     private fun writeToFile(text: String) {
         try {
-            // openFileOutput откроет FileOutputStream во внутреннем каталоге приложения
+            // Записываем во внутреннее хранилище (Context.MODE_PRIVATE)
             val outputStream = openFileOutput(FILE_NAME, Context.MODE_PRIVATE)
             val writer = OutputStreamWriter(outputStream)
             writer.write(text)
@@ -83,21 +75,18 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Data saved to $FILE_NAME", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error saving file: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error writing file: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
-    /**
-     * Чтение из внутреннего файла.
-     */
     private fun readFromFile(): String {
-        val stringBuilder = StringBuilder()
+        val sb = StringBuilder()
         try {
             val inputStream = openFileInput(FILE_NAME)
             val reader = BufferedReader(InputStreamReader(inputStream))
             var line: String? = reader.readLine()
             while (line != null) {
-                stringBuilder.append(line).append("\n")
+                sb.append(line).append("\n")
                 line = reader.readLine()
             }
             reader.close()
@@ -106,7 +95,6 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
             Toast.makeText(this, "Error reading file: ${e.message}", Toast.LENGTH_LONG).show()
         }
-        return stringBuilder.toString()
+        return sb.toString()
     }
-
 }

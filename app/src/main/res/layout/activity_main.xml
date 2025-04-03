@@ -8,39 +8,36 @@
 
     <TextView
         android:id="@+id/tvUsername"
-        android:layout_width="378dp"
-        android:layout_height="67dp"
-        android:padding="10dp"
-        android:background="@color/black"
-        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Hello, user!"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_marginBottom="16dp" />
 
     <EditText
         android:id="@+id/edData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter text to save..."
-        android:layout_marginBottom="16dp"/>
+        android:hint="Enter text here..."
+        android:layout_marginBottom="8dp" />
 
     <Button
-        android:id="@+id/btnWriteFile"
+        android:id="@+id/btnWrite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write to File"
-        android:layout_marginBottom="8dp"/>
+        android:text="Write to file"
+        android:layout_marginBottom="8dp" />
 
     <Button
-        android:id="@+id/btnReadFile"
+        android:id="@+id/btnRead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Read from File"
-        android:layout_marginBottom="8dp"/>
+        android:text="Read from file"
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"/>
-
+        android:text="Logout" />
 </LinearLayout>
